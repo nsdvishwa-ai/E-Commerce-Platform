@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center mb-4">🛒 E-Commerce Store</h1>
+
+<!-- ================= CATEGORY ================= -->
+
+<div class="mb-4">
+
+    <a href="{% url 'home' %}" class="btn btn-dark me-2">
+        All
+    </a>
+
+    {% for category in categories %}
+
+        <a href="?category={{ category.id }}"
+           class="btn btn-outline-primary me-2">
+
+            {{ category.name }}
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+<!-- ================= SORT ================= -->
+
+<div class="mb-4">
+
+    <form method="GET">
+
+        {% if request.GET.category %}
+            <input type="hidden" name="category" value="{{ request.GET.category }}">
+        {% endif %}
+
+        <select
+            name="sort"
+            class="form-select"
+            onchange="this.form.submit()"
+            style="width:250px;">
+
+            <option value="">Sort By</option>
+
+            <option value="low">Price Low → High</option>
+
+            <option value="high">Price High → Low</option>
+
+            <option value="az">Name A → Z</option>
+
+            <option value="za">Name Z → A</option>
+
+        </select>
+
+    </form>
+
+</div>
+
+<!-- ================= SEARCH ================= -->
+
+<input
+    type="text"
+    id="search"
+    class="form-control mb-4"
+    placeholder="Search Products">
+
+<div id="results"></div>
+
+<!-- ================= PRODUCTS ================= -->
+
+<div id="product-list">
+
+    <div class="row">
+
+        {% for product in products %}
+
+        <div class="col-md-4">
+
+            <div class="card mb-4 shadow">
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" height="250">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h4>{{ product.name }}</h4>
+
+                    <p>{{ product.description|truncatewords:15 }}</p>
+
+                    <h3>₹{{ product.price }}</h3>
+
+                    <p><strong>Stock:</strong> {{ product.stock }}</p>
+
+                    <a href="{% url 'product_detail' product.id %}"
+                       class="btn btn-primary">
+
+                        View Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <h3 class="text-center">
+                No Products Available
+            </h3>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- ================= AJAX ================= -->
+
+<script>
+
+let searchBox = document.getElementById("search");
+let productList = document.getElementById("product-list");
+let results = document.getElementById("results");
+
+searchBox.addEventListener("keyup", function () {
+
+    let query = this.value;
+
+    fetch("/search/?q=" + query)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        results.innerHTML = "";
+
+        if (query.length > 0) {
+
+            productList.style.display = "none";
+
+            data.forEach(product => {
+
+                results.innerHTML += `
+
+                    <div class="card mt-3 p-3 shadow-sm">
+
+                        <div style="display:flex; gap:15px; align-items:center;">
+
+                            <img src="${product.image}"
+                                 style="width:120px; height:120px; object-fit:cover; border-radius:10px;">
+
+                            <div>
+
+                                <h5>${product.name}</h5>
+
+                                <p style="color:green;">₹${product.price}</p>
+
+                                <a href="/product/${product.id}/"
+                                   class="btn btn-primary btn-sm">
+
+                                    View Details
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+        else {
+
+            productList.style.display = "block";
+
+        }
+
+    });
+
+});
+
+searchBox.addEventListener("keypress", function (e) {
+
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        this.dispatchEvent(new Event("keyup"));
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

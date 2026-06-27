@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row mt-4">
+
+    <div class="col-md-6">
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid">
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-6">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>{{ product.description }}</p>
+
+        <h3>₹{{ product.price }}</h3>
+
+        <p><strong>Available Stock:</strong> {{ product.stock }}</p>
+
+        {% if product.stock > 0 %}
+
+            <a href="{% url 'add_to_cart' product.id %}"
+               class="btn btn-success">
+
+                Add To Cart
+
+            </a>
+
+            <a href="{% url 'buy_now' product.id %}"
+               class="btn btn-primary">
+
+                Buy Now
+
+            </a>
+
+        {% else %}
+
+            <button class="btn btn-danger" disabled>
+                Out Of Stock
+            </button>
+
+        {% endif %}
+
+        <a href="{% url 'wishlist' product.id %}"
+           class="btn btn-warning">
+
+            ❤ Add To Wishlist
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
