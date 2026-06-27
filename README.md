@@ -67,20 +67,6 @@ A web-based **E-Commerce Platform** developed using **Python, Django, HTML, CSS,
 
 ---
 
-## 📌 Future Enhancements
 
-- Online payment integration (Razorpay/Stripe)
-- Product reviews and ratings
-- Email order confirmation
-- Admin sales dashboard
-- Coupon and discount system
-- Product recommendations
 
----
 
-## 👨‍💻 Developed By
-
-**Vishwa D**
-
-B.Tech Computer Science and Engineering  
-SASTRA Deemed University
