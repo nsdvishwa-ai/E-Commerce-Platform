@@ -43,14 +43,14 @@ A web-based **E-Commerce Platform** developed using **Python, Django, HTML, CSS,
 ### Shopping Cart
 ![Shopping Cart](screenshots/Cart_Page.png)
 
-### My Wishlist
-![My Wishlist](screenshots/My_Wishlist.png)
-
 ### Payment Gateway
 ![Payment Gateway](screenshots/Payment_Gateway.png)
 
 ### Order Successful
 ![Order Successful](screenshots/Order_Successful.png)
+
+### My Wishlist
+![My Wishlist](screenshots/My_Wishlist.png)
 
 ---
 
